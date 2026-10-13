@@ -1,0 +1,521 @@
+.dialog {
+  width: min(36rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  padding: 0 1.4rem 1.4rem;
+  border: 4px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow:
+    0 8px 0 var(--border),
+    var(--shadow);
+}
+
+.dialog[open] {
+  animation: entrar 0.35s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.dialog::backdrop {
+  background: rgb(27 20 48 / 0.6);
+}
+
+.topo {
+  margin: 0 -1.4rem 1rem;
+  padding: 1rem 1.4rem;
+  background: var(--no-atual);
+  color: #3a2a00;
+  border-bottom: 4px solid var(--no-atual-sombra);
+}
+
+.topo h2 {
+  font-size: 1.45rem;
+}
+
+.etapa {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.55);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.bonus {
+  margin-left: 0.4rem;
+  background: #3a2a00;
+  color: var(--no-atual);
+}
+
+.aviso {
+  margin-top: 0.9rem !important;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--tempo) 18%, var(--surface));
+  border: 2px dashed var(--tempo);
+  font-weight: 600;
+}
+
+.descricao {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Cartão de opção: letra colorida + texto + custo */
+.card {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid color-mix(in srgb, var(--cor) 45%, var(--border));
+  border-radius: 16px;
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--cor) 45%, var(--border));
+  cursor: pointer;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s,
+    background 0.15s;
+}
+
+.card:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cor) 10%, var(--surface));
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 color-mix(in srgb, var(--cor) 60%, var(--border));
+}
+
+.card:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--cor) 60%, var(--border));
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--text);
+  outline-offset: 3px;
+}
+
+.card:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+}
+
+.letra {
+  flex-shrink: 0;
+  width: 2.3rem;
+  height: 2.3rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: var(--cor);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--cor) 60%, #000);
+}
+
+.textoOpcao {
+  flex: 1;
+  font-weight: 500;
+}
+
+.semTempo {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.custo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tempo) 18%, transparent);
+  color: color-mix(in srgb, var(--tempo) 70%, var(--text));
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.custo svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+}
+
+/* ---------- Feedback ---------- */
+
+.feedback {
+  padding: 1rem;
+  border-radius: 16px;
+  background: var(--accent-soft);
+  border: 3px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  animation: entrar 0.35s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.feedback p {
+  margin: 0 0 0.85rem;
+}
+
+.alerta {
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger) 50%, transparent);
+  animation: sacudir 0.45s ease;
+}
+
+.escolha {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.efeitos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.efeitos li {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: var(--cor);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--cor) 60%, #000);
+  animation: estourar 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) backwards;
+}
+
+.efeitos li:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.efeitos li:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.efeitos li:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.efeitos svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+}
+
+@keyframes estourar {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+@keyframes sacudir {
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open],
+  .feedback,
+  .alerta,
+  .efeitos li {
+    animation: none;
+  }
+}
+
+/* ---------- Estilo Frutiger Aero ---------- */
+
+:global(:root[data-estilo='aero']) .dialog {
+  border: 1px solid var(--vidro-borda);
+  border-radius: 28px;
+  background:
+    var(--reflexo),
+    var(--vidro-forte);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 20px 60px rgb(0 50 110 / 0.45);
+}
+
+:global(:root[data-estilo='aero']) .dialog::backdrop {
+  background: rgb(0 60 120 / 0.3);
+}
+
+/* Barra de título estilo janela "aero" */
+:global(:root[data-estilo='aero']) .topo {
+  background:
+    var(--brilho),
+    linear-gradient(to bottom, #62d2ff, #0e9ade);
+  color: #fff;
+  border-bottom: 1px solid rgb(255 255 255 / 0.7);
+  text-shadow: 0 1px 3px rgb(0 50 100 / 0.5);
+}
+
+:global(:root[data-estilo='aero']) .etapa {
+  background: rgb(255 255 255 / 0.3);
+  border: 1px solid rgb(255 255 255 / 0.7);
+  color: #fff;
+}
+
+:global(:root[data-estilo='aero']) .bonus {
+  background:
+    var(--brilho),
+    linear-gradient(#ffe36b, #ffb81f);
+  color: #5a3a00;
+  text-shadow: none;
+}
+
+:global(:root[data-estilo='aero']) .card {
+  border: 1px solid color-mix(in srgb, var(--cor) 45%, #fff);
+  border-radius: 18px;
+  background:
+    var(--brilho),
+    linear-gradient(to right, color-mix(in srgb, var(--cor) 14%, transparent), transparent 60%),
+    var(--vidro-forte);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 4px 14px color-mix(in srgb, var(--cor) 25%, transparent);
+}
+
+:global(:root[data-estilo='aero']) .card:hover:not(:disabled) {
+  background:
+    var(--brilho),
+    linear-gradient(to right, color-mix(in srgb, var(--cor) 24%, transparent), transparent 70%),
+    var(--vidro-forte);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 6px 22px color-mix(in srgb, var(--cor) 50%, transparent);
+}
+
+:global(:root[data-estilo='aero']) .card:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: inset 0 2px 6px rgb(0 40 80 / 0.2);
+}
+
+/* Letra da opção em orbe de vidro */
+:global(:root[data-estilo='aero']) .letra {
+  border: 2px solid rgb(255 255 255 / 0.9);
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 18%, rgb(255 255 255 / 0.9), transparent 70%),
+    radial-gradient(circle at 50% 115%, color-mix(in srgb, var(--cor) 45%, #fff), transparent 60%),
+    var(--cor);
+  box-shadow:
+    0 3px 10px color-mix(in srgb, var(--cor) 55%, transparent),
+    inset 0 -3px 6px rgb(0 0 0 / 0.18);
+  text-shadow: 0 1px 2px rgb(0 40 80 / 0.5);
+}
+
+:global(:root[data-estilo='aero']) .custo {
+  border: 1px solid rgb(255 255 255 / 0.8);
+  background:
+    var(--brilho),
+    linear-gradient(#ffd36b, #ffa91f);
+  color: #5a3500;
+  box-shadow: 0 2px 8px rgb(255 169 31 / 0.4);
+}
+
+:global(:root[data-estilo='aero']) .feedback {
+  border: 1px solid rgb(255 255 255 / 0.85);
+  background:
+    var(--reflexo),
+    rgb(31 194 138 / 0.18);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.95);
+}
+
+:global(:root[data-estilo='aero']) .alerta {
+  background:
+    var(--reflexo),
+    rgb(255 79 110 / 0.18);
+}
+
+:global(:root[data-estilo='aero']) .efeitos li {
+  border: 1px solid rgb(255 255 255 / 0.8);
+  background:
+    var(--brilho),
+    var(--cor);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--cor) 45%, transparent);
+  text-shadow: 0 1px 2px rgb(0 40 80 / 0.4);
+}
+
+:global(:root[data-estilo='aero']) .aviso {
+  border: 1px dashed var(--tempo);
+  background:
+    var(--reflexo),
+    rgb(255 169 31 / 0.2);
+}
+
+/* ---------- Estilo Retrô ---------- */
+/* Janela de diálogo de RPG */
+
+:global(:root[data-estilo='retro']) .dialog {
+  border: var(--px) solid var(--caixa-borda);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 var(--px) #000,
+    12px 12px 0 var(--px) #000;
+}
+
+:global(:root[data-estilo='retro']) .dialog[open] {
+  animation-timing-function: steps(3);
+}
+
+:global(:root[data-estilo='retro']) .dialog::backdrop {
+  background:
+    repeating-linear-gradient(45deg, rgb(0 0 0 / 0.35) 0 4px, transparent 4px 8px),
+    rgb(11 15 42 / 0.7);
+}
+
+:global(:root[data-estilo='retro']) .topo {
+  background: var(--no-atual);
+  color: #000;
+  border-bottom: var(--px) solid #000;
+}
+
+:global(:root[data-estilo='retro']) .topo h2 {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(0.85rem, 3vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+:global(:root[data-estilo='retro']) .etapa {
+  border-radius: 0;
+  background: #000;
+  color: var(--no-atual);
+  font-family: var(--fonte-jogo);
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 0.05rem 0.5rem;
+}
+
+:global(:root[data-estilo='retro']) .bonus {
+  background: var(--qualidade);
+  color: #000;
+}
+
+:global(:root[data-estilo='retro']) .descricao {
+  color: var(--text);
+}
+
+/* Opções como itens de menu: aparece uma setinha ▶ ao passar o mouse */
+:global(:root[data-estilo='retro']) .card {
+  border: 3px solid var(--cor);
+  border-radius: 0;
+  background: #000;
+  color: var(--text);
+  box-shadow: var(--px) var(--px) 0 var(--cor);
+  transition: none;
+}
+
+:global(:root[data-estilo='retro']) .card:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cor) 18%, #000);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--cor);
+}
+
+:global(:root[data-estilo='retro']) .card:hover:not(:disabled) .textoOpcao::before {
+  content: '▶ ';
+  color: var(--cor);
+}
+
+:global(:root[data-estilo='retro']) .card:active:not(:disabled) {
+  transform: translate(var(--px), var(--px));
+  box-shadow: none;
+}
+
+:global(:root[data-estilo='retro']) .card:focus-visible {
+  outline: 3px dashed var(--caixa-borda);
+}
+
+:global(:root[data-estilo='retro']) .card:disabled {
+  filter: grayscale(1);
+}
+
+:global(:root[data-estilo='retro']) .letra {
+  border: 3px solid #000;
+  border-radius: 0;
+  color: #000;
+  font-family: var(--fonte-titulo);
+  font-size: 0.85rem;
+  font-weight: 400;
+  box-shadow: inset -3px -3px 0 rgb(0 0 0 / 0.35), inset 3px 3px 0 rgb(255 255 255 / 0.4);
+}
+
+:global(:root[data-estilo='retro']) .custo {
+  border: 2px solid #000;
+  border-radius: 0;
+  background: var(--tempo);
+  color: #000;
+  text-shadow: none;
+  font-family: var(--fonte-jogo);
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+:global(:root[data-estilo='retro']) .feedback {
+  border: 3px solid var(--accent);
+  border-radius: 0;
+  background: #000;
+  animation-timing-function: steps(3);
+}
+
+:global(:root[data-estilo='retro']) .alerta {
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 15%, #000);
+  animation-timing-function: steps(4);
+}
+
+:global(:root[data-estilo='retro']) .efeitos li {
+  border: 2px solid #000;
+  border-radius: 0;
+  color: #000;
+  box-shadow: 3px 3px 0 #000;
+  animation-timing-function: steps(3);
+}
+
+:global(:root[data-estilo='retro']) .aviso {
+  border: 3px dashed var(--tempo);
+  border-radius: 0;
+  background: #000;
+  color: var(--tempo);
+}

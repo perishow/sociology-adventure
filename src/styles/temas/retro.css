@@ -1,0 +1,132 @@
+/*
+ * Tema "Retrô": videogame 8-bit. Tudo quadrado, bordas pretas grossas, sombras
+ * duras, fontes pixel, linhas de tela CRT e animações em "passos" (steps).
+ * Paleta baseada na PICO-8. Só vale com <html data-estilo="retro">.
+ *
+ * Aqui ficam as cores e o fundo da página. O que muda em cada componente fica
+ * no fim do .module.css dele, no bloco "Estilo Retrô".
+ * Este tema tem um visual só (escuro), com ou sem modo escuro no sistema.
+ */
+@import '@fontsource/press-start-2p';
+
+/* VT323 com size-adjust: a fonte é estreita e baixinha, então desenhamos ela 15%
+   maior só aqui (sem aumentar o resto da página). Cobre o português (latin). */
+@font-face {
+  font-family: 'VT323 Jogo';
+  src: url('../../../node_modules/@fontsource/vt323/files/vt323-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 115%;
+}
+
+:root[data-estilo='retro'] {
+  /* VT323 (terminal antigo) no texto: números bem legíveis. Press Start 2P nos títulos. */
+  --fonte-jogo: 'VT323 Jogo', ui-monospace, monospace;
+  --fonte-titulo: 'Press Start 2P', ui-monospace, monospace;
+
+  --bg: #0b0f2a;
+  --surface: #1d2b53;
+  --text: #fff1e8;
+  --text-muted: #c2c3c7;
+  --border: #000;
+  --accent: #00e436;
+  --accent-sombra: #008751;
+  --accent-soft: rgb(0 228 54 / 0.15);
+  --danger: #ff004d;
+  --danger-sombra: #7e2553;
+  --danger-soft: rgb(255 0 77 / 0.18);
+
+  --tempo: #ffa300;
+  --tempo-baixo: #ff004d;
+  --aprendizado: #29adff;
+  --qualidade: #ff77a8;
+
+  --opcao-a: #29adff;
+  --opcao-b: #00e436;
+  --opcao-c: #ffa300;
+
+  --mapa-topo: #1d2b53;
+  --mapa-baixo: #0b0f2a;
+  --mapa-ponto: rgb(255 241 232 / 0.08);
+  --mapa-borda: #000;
+  --seta-futura: #5f574f;
+
+  --no-bloqueado: #5f574f;
+  --no-bloqueado-sombra: #000;
+  --no-concluido: #00e436;
+  --no-concluido-sombra: #008751;
+  --no-atual: #ffec27;
+  --no-atual-sombra: #ab5236;
+
+  --radius: 0;
+  --shadow: 6px 6px 0 #000;
+
+  /* Exclusivos do Retrô */
+  --px: 4px; /* tamanho do "pixel" das bordas e sombras */
+  --caixa-borda: #fff1e8;
+  --relevo: inset calc(var(--px) * -1) calc(var(--px) * -1) 0 rgb(0 0 0 / 0.35),
+    inset var(--px) var(--px) 0 rgb(255 255 255 / 0.35);
+
+  color-scheme: dark;
+  /* A VT323 é estreita: tudo um pouco maior neste tema */
+  font-size: 118%;
+  font-variant-ligatures: none;
+  /* As fontes pixel têm um peso só: sem negrito "falso", que borra os pixels */
+  font-synthesis: none;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  /* Contorno escuro de 1px: as letras se destacam do fundo e das linhas de CRT */
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 0.65);
+
+  background: #0b0f2a;
+}
+
+:root[data-estilo='retro'] body {
+  background: transparent;
+}
+
+/* Céu noturno com estrelas em pixels, numa camada fixa (desenhada uma vez só;
+   background-attachment: fixed redesenhava o fundo a cada rolagem) */
+:root[data-estilo='retro'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+  background:
+    radial-gradient(#fff1e8 1px, transparent 1.5px) 0 0 / 56px 56px,
+    radial-gradient(#29adff 1px, transparent 1.5px) 28px 36px / 88px 88px,
+    radial-gradient(#ff77a8 1px, transparent 1.5px) 60px 10px / 120px 120px,
+    linear-gradient(to bottom, #0b0f2a, #1d2b53);
+}
+
+/* No celular, o tamanho normal: com 118% o HUD de 4 colunas não cabe */
+@media (max-width: 40rem) {
+  :root[data-estilo='retro'] {
+    font-size: 100%;
+  }
+}
+
+/* Sem negrito de verdade, o destaque vem da cor, como nos jogos antigos */
+:root[data-estilo='retro'] strong {
+  color: var(--no-atual);
+}
+
+/* Linhas de tela CRT por cima de tudo (sem bloquear cliques) */
+:root[data-estilo='retro'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  /* bem suaves, para não "riscarem" as letras */
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.07) 0 1px, transparent 1px 3px);
+}
+
+/* As imagens do jogo são vetoriais; no Retrô, elas passam pelo filtro de
+   pixelização definido em components/common/FiltrosRetro.jsx */
+:root[data-estilo='retro'] .pixelar {
+  filter: url('#retro-pixelar');
+}

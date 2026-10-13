@@ -1,0 +1,148 @@
+/* Botão "de jogo": sombra sólida embaixo que afunda ao clicar. */
+.button {
+  --cor: var(--accent);
+  --cor-sombra: var(--accent-sombra);
+
+  border: none;
+  border-radius: 16px;
+  padding: 0.75rem 1.6rem;
+  font-family: var(--fonte-jogo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--cor);
+  box-shadow: 0 5px 0 var(--cor-sombra);
+  cursor: pointer;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s,
+    filter 0.15s;
+}
+
+.button:hover {
+  filter: brightness(1.07);
+}
+
+.button:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--cor-sombra);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--text);
+  outline-offset: 3px;
+}
+
+.secondary {
+  --cor: var(--surface);
+  --cor-sombra: var(--border);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+.big {
+  font-size: 1.35rem;
+  padding: 0.9rem 2.2rem;
+}
+
+/* ---------- Estilo Frutiger Aero ---------- */
+/* Botão "pílula de gel": gradiente com reflexo branco na metade de cima */
+
+:global(:root[data-estilo='aero']) .button {
+  border: 1px solid color-mix(in srgb, var(--cor) 65%, #003050);
+  border-radius: 999px;
+  background:
+    var(--brilho),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--cor) 55%, #fff),
+      var(--cor) 55%,
+      color-mix(in srgb, var(--cor) 80%, #002040)
+    );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -4px 10px rgb(255 255 255 / 0.35),
+    0 6px 18px color-mix(in srgb, var(--cor) 45%, transparent);
+  text-shadow: 0 1px 2px rgb(0 40 80 / 0.45);
+  letter-spacing: 0.01em;
+}
+
+:global(:root[data-estilo='aero']) .button:hover {
+  filter: brightness(1.08) saturate(1.1);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -4px 10px rgb(255 255 255 / 0.35),
+    0 8px 26px color-mix(in srgb, var(--cor) 65%, transparent);
+}
+
+:global(:root[data-estilo='aero']) .button:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    inset 0 2px 6px rgb(0 40 80 / 0.35),
+    0 2px 8px color-mix(in srgb, var(--cor) 40%, transparent);
+}
+
+:global(:root[data-estilo='aero']) .secondary {
+  --cor: #e3f5ff;
+  color: var(--text);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.8);
+  border: 1px solid var(--vidro-borda);
+  background:
+    var(--brilho),
+    var(--vidro-forte);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 4px 14px rgb(0 70 140 / 0.2);
+}
+
+/* ---------- Estilo Retrô ---------- */
+/* Botão de cartucho: quadrado, borda preta, relevo de pixel e sombra dura */
+
+:global(:root[data-estilo='retro']) .button {
+  border: var(--px) solid #000;
+  border-radius: 0;
+  background: var(--cor);
+  color: #000;
+  font-family: var(--fonte-titulo);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  box-shadow:
+    var(--relevo),
+    var(--px) var(--px) 0 #000;
+  transition: none;
+}
+
+:global(:root[data-estilo='retro']) .button:hover {
+  filter: none;
+  background: color-mix(in srgb, var(--cor) 80%, #fff);
+}
+
+:global(:root[data-estilo='retro']) .button:active {
+  transform: translate(var(--px), var(--px));
+  box-shadow: var(--relevo);
+}
+
+:global(:root[data-estilo='retro']) .button:focus-visible {
+  outline: var(--px) dashed var(--caixa-borda);
+  outline-offset: var(--px);
+}
+
+:global(:root[data-estilo='retro']) .secondary {
+  --cor: #c2c3c7;
+}
+
+:global(:root[data-estilo='retro']) .big {
+  font-size: 0.95rem;
+  padding: 1rem 1.6rem;
+}
+
+@media (max-width: 40rem) {
+  :global(:root[data-estilo='retro']) .big {
+    font-size: 0.7rem;
+    padding: 0.9rem 1rem;
+  }
+}

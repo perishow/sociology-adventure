@@ -1,0 +1,141 @@
+/*
+ * Tema "Frutiger Aero": céu azul, vidro fosco, brilho glossy, bolhas e natureza
+ * (o visual de meados dos anos 2000). Só vale com <html data-estilo="aero">.
+ *
+ * Aqui ficam as cores e o fundo da página. O que muda em cada componente fica
+ * no fim do .module.css dele, no bloco "Estilo Frutiger Aero".
+ */
+@import '@fontsource-variable/nunito';
+
+:root[data-estilo='aero'] {
+  --fonte-jogo: 'Nunito Variable', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+
+  --bg: #cfeeff;
+  --surface: #f5fcff;
+  --text: #0b3553;
+  --text-muted: #3f6984;
+  --border: rgb(255 255 255 / 0.8);
+  --accent: #10a5e8;
+  --accent-sombra: #0a7fb8;
+  --accent-soft: rgb(31 194 138 / 0.18);
+  --danger: #ff4f6e;
+  --danger-sombra: #c9264a;
+  --danger-soft: rgb(255 79 110 / 0.16);
+
+  --tempo: #ffa91f;
+  --tempo-baixo: #ff4f6e;
+  --aprendizado: #2b8cff;
+  --qualidade: #b05cff;
+
+  --opcao-a: #12b2e8;
+  --opcao-b: #58c41f;
+  --opcao-c: #ff8a1f;
+
+  --mapa-topo: #3fb4ff;
+  --mapa-baixo: #b9ecff;
+  --mapa-ponto: rgb(255 255 255 / 0.3);
+  --mapa-borda: rgb(255 255 255 / 0.85);
+  --seta-futura: rgb(255 255 255 / 0.9);
+
+  --no-bloqueado: #8fbcd6;
+  --no-bloqueado-sombra: #5f93b3;
+  --no-concluido: #1fc28a;
+  --no-concluido-sombra: #0e8d62;
+  --no-atual: #ffd23f;
+  --no-atual-sombra: #e09a00;
+
+  --radius: 22px;
+  --shadow: 0 10px 30px rgb(0 70 140 / 0.25);
+
+  /* Exclusivos do Aero */
+  /* Sem desfoque (backdrop-filter pesava demais em aparelhos simples): o "vidro"
+     é só uma cor translúcida, um pouco mais opaca para o texto continuar legível */
+  --vidro: rgb(244 251 255 / 0.62);
+  --vidro-forte: rgb(248 253 255 / 0.82);
+  --vidro-borda: rgb(255 255 255 / 0.9);
+  --brilho: linear-gradient(to bottom, rgb(255 255 255 / 0.85), rgb(255 255 255 / 0.25) 48%, transparent 50%);
+  /* reflexo suave de cima para baixo usado em cartões, regras, feedback etc. */
+  --reflexo: linear-gradient(to bottom, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0.15));
+  --colina: #6fd23f;
+  --colina-2: #9ae45f;
+  --sol: rgb(255 253 225 / 0.95);
+  --texto-titulo: linear-gradient(180deg, #4fd0ff 10%, #0a8bd6 55%, #18b97e 95%);
+  --raios: rgb(255 255 255 / 0.12);
+  --selo-futuro-texto: #3f6984;
+
+  color-scheme: light;
+  background: var(--mapa-baixo);
+}
+
+/* Aero noturno: céu escuro. Os reflexos brancos ficam bem fracos, senão
+   clareiam o fundo atrás do texto claro e ele some. */
+@media (prefers-color-scheme: dark) {
+  :root[data-estilo='aero'] {
+    --bg: #03203b;
+    --surface: #0d2c4a;
+    --text: #eef9ff;
+    --text-muted: #bcd9ec;
+    --border: rgb(160 220 255 / 0.3);
+    --accent: #3ec8ff;
+    --accent-sombra: #0b7fb8;
+
+    --mapa-topo: #07345e;
+    --mapa-baixo: #0b4a63;
+    --mapa-ponto: rgb(200 240 255 / 0.12);
+    --mapa-borda: rgb(160 220 255 / 0.35);
+    --seta-futura: rgb(190 235 255 / 0.6);
+
+    --no-bloqueado: #3e6d8f;
+    --no-bloqueado-sombra: #284c66;
+
+    --shadow: 0 10px 30px rgb(0 0 0 / 0.5);
+
+    --vidro: rgb(8 32 58 / 0.82);
+    --vidro-forte: rgb(10 38 68 / 0.9);
+    --vidro-borda: rgb(170 225 255 / 0.35);
+    --brilho: linear-gradient(to bottom, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.04) 48%, transparent 50%);
+    --reflexo: linear-gradient(to bottom, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.01));
+    --colina: #13724f;
+    --colina-2: #1b8a5e;
+    --sol: rgb(200 240 255 / 0.45);
+    --texto-titulo: linear-gradient(180deg, #b8f0ff 10%, #5ad0ff 55%, #5ae8b2 95%);
+    --raios: rgb(160 220 255 / 0.05);
+    --selo-futuro-texto: #06243f;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-estilo='aero'] body {
+  background: transparent;
+}
+
+/* Céu, sol, raios, colinas e bolhas numa camada fixa só, sem animação.
+   Uma camada fixa (position: fixed) é desenhada uma vez; já
+   background-attachment: fixed redesenhava o fundo inteiro a cada rolagem. */
+:root[data-estilo='aero'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+  background:
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.95) 0 7%, transparent 9%) 8% 20% / 90px 90px no-repeat,
+    radial-gradient(circle, rgb(255 255 255 / 0.08) 0 60%, rgb(255 255 255 / 0.7) 67%, rgb(255 255 255 / 0.2) 70%, transparent 71%) 8% 20% / 90px 90px no-repeat,
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.95) 0 7%, transparent 9%) 80% 35% / 120px 120px no-repeat,
+    radial-gradient(circle, rgb(255 255 255 / 0.08) 0 60%, rgb(255 255 255 / 0.7) 67%, rgb(255 255 255 / 0.2) 70%, transparent 71%) 80% 35% / 120px 120px no-repeat,
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.95) 0 7%, transparent 9%) 92% 80% / 60px 60px no-repeat,
+    radial-gradient(circle, rgb(255 255 255 / 0.08) 0 60%, rgb(255 255 255 / 0.7) 67%, rgb(255 255 255 / 0.2) 70%, transparent 71%) 92% 80% / 60px 60px no-repeat,
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.95) 0 7%, transparent 9%) 22% 70% / 50px 50px no-repeat,
+    radial-gradient(circle, rgb(255 255 255 / 0.08) 0 60%, rgb(255 255 255 / 0.7) 67%, rgb(255 255 255 / 0.2) 70%, transparent 71%) 22% 70% / 50px 50px no-repeat,
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.95) 0 7%, transparent 9%) 40% 12% / 36px 36px no-repeat,
+    radial-gradient(circle, rgb(255 255 255 / 0.08) 0 60%, rgb(255 255 255 / 0.7) 67%, rgb(255 255 255 / 0.2) 70%, transparent 71%) 40% 12% / 36px 36px no-repeat,
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.95) 0 7%, transparent 9%) 4% 52% / 40px 40px no-repeat,
+    radial-gradient(circle, rgb(255 255 255 / 0.08) 0 60%, rgb(255 255 255 / 0.7) 67%, rgb(255 255 255 / 0.2) 70%, transparent 71%) 4% 52% / 40px 40px no-repeat,
+    radial-gradient(ellipse 80% 25% at 15% 105%, var(--colina-2) 0 60%, transparent 61%),
+    radial-gradient(ellipse 120% 28% at 75% 108%, var(--colina) 0 60%, transparent 61%),
+    radial-gradient(circle at 88% 6%, var(--sol), transparent 22%),
+    repeating-conic-gradient(from 200deg at 88% 6%, var(--raios) 0 6deg, transparent 6deg 14deg),
+    linear-gradient(to bottom, var(--mapa-topo), var(--mapa-baixo) 75%);
+}

@@ -1,0 +1,88 @@
+/*
+ * Tema "Clássico": o visual original do jogo (cores quentes, botões com volume,
+ * fonte Fredoka). É a base: as regras dos componentes (*.module.css) são deste tema,
+ * e os outros temas só sobrescrevem o que muda.
+ */
+@import '@fontsource-variable/fredoka';
+
+:root {
+  --fonte-jogo: 'Fredoka Variable', 'Fredoka', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --bg: #fff4dc;
+  --surface: #fffdf7;
+  --text: #2d2340;
+  --text-muted: #6e6383;
+  --border: #ead9b8;
+  --accent: #29a36a;
+  --accent-sombra: #1b7449;
+  --accent-soft: #d9f4e6;
+  --danger: #e04f3a;
+  --danger-sombra: #a8321f;
+  --danger-soft: #fde0da;
+
+  --tempo: #f0a020;
+  --tempo-baixo: #e04f3a;
+  --aprendizado: #3a86e0;
+  --qualidade: #9a5ae0;
+
+  --opcao-a: #8a4fd6;
+  --opcao-b: #2f8ae0;
+  --opcao-c: #f08a24;
+
+  --mapa-topo: #bfe3ff;
+  --mapa-baixo: #c9edb0;
+  --mapa-ponto: rgb(255 255 255 / 0.55);
+  --mapa-borda: #8fbf7a;
+  --seta-futura: #9fb2a0;
+
+  --no-bloqueado: #b8b3c2;
+  --no-bloqueado-sombra: #8c8798;
+  --no-concluido: #29a36a;
+  --no-concluido-sombra: #1b7449;
+  --no-atual: #ffc531;
+  --no-atual-sombra: #d69200;
+
+  --radius: 18px;
+  --shadow: 0 10px 24px rgb(70 45 10 / 0.16);
+
+  color-scheme: light;
+  font-family: var(--fonte-jogo);
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1b1730;
+    --surface: #2a2445;
+    --text: #f3eeff;
+    --text-muted: #b5aacf;
+    --border: #463d68;
+    --accent: #3cc282;
+    --accent-sombra: #23804f;
+    --accent-soft: #1f4636;
+    --danger: #f06a55;
+    --danger-sombra: #a8321f;
+    --danger-soft: #4c2420;
+
+    --mapa-topo: #1f2f5c;
+    --mapa-baixo: #1d4433;
+    --mapa-ponto: rgb(255 255 255 / 0.08);
+    --mapa-borda: #3f6b4f;
+    --seta-futura: #5b6f68;
+
+    --no-bloqueado: #5d5778;
+    --no-bloqueado-sombra: #403b57;
+
+    --shadow: 0 10px 24px rgb(0 0 0 / 0.45);
+
+    color-scheme: dark;
+  }
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% 0%, rgb(255 255 255 / 0.5), transparent 40%),
+    var(--bg);
+}

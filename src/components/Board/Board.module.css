@@ -1,0 +1,672 @@
+/* ---------- Mapa ---------- */
+
+.mapa {
+  padding: 1.5rem 0.5rem;
+  border-radius: 28px;
+  border: 4px solid var(--mapa-borda);
+  background:
+    radial-gradient(circle, var(--mapa-ponto) 1.5px, transparent 1.6px) 0 0 / 22px 22px,
+    linear-gradient(to top, var(--mapa-baixo), var(--mapa-topo));
+  box-shadow:
+    inset 0 0 0 4px rgb(255 255 255 / 0.25),
+    0 8px 0 var(--mapa-borda);
+}
+
+.tabuleiro {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.arestas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---------- Setas ---------- */
+
+.seta {
+  transition: opacity 0.5s ease;
+}
+
+.trilha {
+  fill: none;
+  stroke: var(--cor);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.ponta {
+  fill: var(--cor);
+}
+
+.selo circle {
+  fill: var(--cor);
+  stroke: var(--surface);
+  stroke-width: 3;
+}
+
+.seloBrilho,
+.seloQuadrado {
+  display: none;
+}
+
+.selo text {
+  fill: #fff;
+  font-family: var(--fonte-jogo);
+  font-size: 16px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+/* Etapas que ainda não chegaram: setas apagadas e tracejadas */
+.futura .seta {
+  --cor: var(--seta-futura) !important;
+  opacity: 0.85;
+}
+
+.futura .trilha {
+  stroke-dasharray: 2 12;
+  stroke-width: 5;
+}
+
+/* Etapa atual: as três opções em destaque. Sem animação: animar algo dentro do
+   SVG obriga o navegador a redesenhar o tabuleiro inteiro a cada quadro. */
+.disponivel .trilha {
+  stroke-dasharray: 14 10;
+  stroke-width: 7;
+}
+
+/* Depois de escolher: só a escolhida fica */
+.escolhida .trilha {
+  stroke-width: 8;
+}
+
+.oculta {
+  opacity: 0;
+}
+
+/* ---------- Nós ---------- */
+
+.nos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.tabuleiro > .nos {
+  position: absolute;
+  inset: 0;
+}
+
+.no {
+  position: absolute;
+  width: 13%;
+  transform: translate(-50%, -50%);
+}
+
+.circulo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-family: var(--fonte-jogo);
+  font-size: clamp(1rem, 4vw, 1.6rem);
+  font-weight: 700;
+  color: #fff;
+  background: var(--no-bloqueado);
+  box-shadow:
+    0 6px 0 var(--no-bloqueado-sombra),
+    0 10px 16px rgb(0 0 0 / 0.18);
+}
+
+.circulo svg {
+  width: 55%;
+  color: var(--text);
+}
+
+.concluido .circulo {
+  background: var(--no-concluido);
+  box-shadow:
+    0 6px 0 var(--no-concluido-sombra),
+    0 10px 16px rgb(0 0 0 / 0.18);
+}
+
+.atual .circulo {
+  background: var(--no-atual);
+  color: transparent; /* o número fica escondido pelo grupo */
+  cursor: pointer;
+  box-shadow:
+    0 6px 0 var(--no-atual-sombra),
+    0 0 0 6px color-mix(in srgb, var(--no-atual) 35%, transparent);
+}
+
+/* Anel que pulsa em volta da etapa atual. Só transform e opacity mudam, que o
+   navegador anima sem redesenhar (box-shadow animado redesenhava a cada quadro). */
+.atual .circulo::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: inherit;
+  border: 4px solid var(--no-atual);
+  pointer-events: none;
+  animation: anel 1.6s ease-out infinite;
+}
+
+.atual .circulo:hover {
+  filter: brightness(1.08);
+}
+
+.atual .circulo:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 6px;
+}
+
+.chegada .circulo {
+  background: var(--surface);
+  border-color: var(--opcao-c);
+  box-shadow: 0 6px 0 var(--mapa-borda);
+}
+
+/* Plaquinha com o nome da etapa */
+.placa {
+  position: absolute;
+  top: 50%;
+  /* Largura natural até o limite; o hook useLarguraDoTexto ajusta à linha mais larga */
+  width: max-content;
+  max-width: 230%;
+  translate: 0 -50%;
+  padding: 0.3em 0.6em;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 2px solid var(--mapa-borda);
+  box-shadow: 0 3px 0 var(--mapa-borda);
+  font-size: clamp(0.68rem, 2.3vw, 0.9rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-muted);
+}
+
+.esquerda {
+  right: calc(100% + 12px);
+  text-align: right;
+}
+
+.direita {
+  left: calc(100% + 12px);
+}
+
+.atual .placa {
+  color: var(--text);
+  border-color: var(--no-atual-sombra);
+  box-shadow: 0 3px 0 var(--no-atual-sombra);
+}
+
+.concluido .placa {
+  color: var(--text);
+}
+
+.bloqueado .placa {
+  opacity: 0.75;
+}
+
+/* Etapa bônus: anel tracejado dourado em volta do círculo */
+.opcional .circulo {
+  outline: 3px dashed var(--no-atual);
+  outline-offset: 5px;
+}
+
+.tagBonus {
+  display: block;
+  width: fit-content;
+  margin-top: 0.2em;
+  padding: 0 0.45em;
+  border-radius: 6px;
+  background: var(--no-atual);
+  color: #3a2a00;
+  font-size: 0.85em;
+}
+
+.esquerda .tagBonus {
+  margin-left: auto;
+}
+
+/* Caminho de "sem tempo" que contorna a etapa bônus */
+.desvio {
+  --cor: var(--seta-futura);
+  transition: opacity 0.5s ease;
+}
+
+.desvio .trilha {
+  stroke-width: 4;
+  stroke-dasharray: 1 9;
+}
+
+/* Etiqueta "sem tempo" no meio do caminho de desvio, com fundo para não se
+   misturar com a seta pontilhada atrás dela */
+.desvioRotulo {
+  position: absolute;
+  translate: -50% -50%;
+  padding: 0.15em 0.6em;
+  border-radius: 999px;
+  border: 2px dashed var(--seta-futura);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: clamp(0.62rem, 2vw, 0.8rem);
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Etapa que uma escolha fez pular */
+.pulado .circulo {
+  background: transparent;
+  border: 4px dashed var(--no-bloqueado);
+  color: var(--no-bloqueado);
+  box-shadow: none;
+}
+
+.pulado .placa {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.tagPulada {
+  display: inline-block;
+  margin-inline: 0.4em;
+  padding: 0 0.4em;
+  border-radius: 6px;
+  background: var(--no-bloqueado);
+  color: #fff;
+  font-size: 0.85em;
+  text-decoration: none;
+}
+
+/* ---------- Grupo (peão) ---------- */
+
+.token {
+  position: absolute;
+  width: 15%;
+  translate: -50% -58%;
+  pointer-events: none;
+  transition:
+    left 0.8s cubic-bezier(0.5, -0.3, 0.3, 1.4),
+    top 0.8s cubic-bezier(0.5, -0.3, 0.3, 1.4);
+  filter: drop-shadow(0 4px 0 rgb(0 0 0 / 0.25));
+  animation: flutuar 2s ease-in-out infinite;
+}
+
+.token svg {
+  display: block;
+  width: 100%;
+}
+
+/* ---------- Animações ---------- */
+
+@keyframes anel {
+  from {
+    transform: scale(0.92);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes flutuar {
+  50% {
+    transform: translateY(-6%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atual .circulo::after,
+  .token {
+    animation: none;
+  }
+
+  .token {
+    transition: none;
+  }
+}
+
+/* ---------- Estilo Frutiger Aero ---------- */
+
+/* Mapa: janela de vidro para um céu com sol, bolhas e colinas */
+:global(:root[data-estilo='aero']) .mapa {
+  border: 1px solid var(--vidro-borda);
+  border-radius: 32px;
+  background:
+    radial-gradient(ellipse 90% 9% at 20% 101%, var(--colina-2) 0 60%, transparent 61%),
+    radial-gradient(ellipse 130% 10% at 80% 103%, var(--colina) 0 60%, transparent 61%),
+    radial-gradient(circle at 88% 3%, var(--sol), transparent 14%),
+    radial-gradient(circle at 12% 30%, rgb(255 255 255 / 0.35) 0 2.5%, transparent 2.8%),
+    radial-gradient(circle at 85% 55%, rgb(255 255 255 / 0.25) 0 4%, transparent 4.3%),
+    radial-gradient(circle at 18% 78%, rgb(255 255 255 / 0.3) 0 1.8%, transparent 2%),
+    radial-gradient(circle, var(--mapa-ponto) 1.5px, transparent 1.6px) 0 0 / 26px 26px,
+    linear-gradient(to bottom, var(--mapa-topo), var(--mapa-baixo));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 0 50px rgb(255 255 255 / 0.25),
+    var(--shadow);
+}
+
+/* Setas com brilho */
+:global(:root[data-estilo='aero']) .trilha {
+  stroke-width: 5;
+}
+
+
+:global(:root[data-estilo='aero']) .selo circle {
+  stroke: rgb(255 255 255 / 0.95);
+  stroke-width: 2;
+}
+
+:global(:root[data-estilo='aero']) .seloBrilho {
+  display: inline;
+  fill: rgb(255 255 255 / 0.6);
+}
+
+:global(:root[data-estilo='aero']) .futura .seloBrilho {
+  fill: rgb(255 255 255 / 0.3);
+}
+
+:global(:root[data-estilo='aero']) .selo text {
+  text-shadow: 0 1px 1px rgb(0 40 80 / 0.5);
+}
+
+:global(:root[data-estilo='aero']) .futura .selo text {
+  fill: var(--selo-futuro-texto);
+  text-shadow: none;
+}
+
+/* Nós: orbes de vidro colorido com reflexo */
+:global(:root[data-estilo='aero']) .circulo {
+  --cor-no: var(--no-bloqueado);
+  border: 2px solid rgb(255 255 255 / 0.9);
+  background:
+    radial-gradient(ellipse 70% 42% at 50% 16%, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0) 72%),
+    radial-gradient(circle at 50% 115%, color-mix(in srgb, var(--cor-no) 40%, #fff) 0, transparent 55%),
+    var(--cor-no);
+  box-shadow:
+    0 8px 20px color-mix(in srgb, var(--cor-no) 50%, transparent),
+    inset 0 -5px 12px rgb(0 30 60 / 0.2);
+  text-shadow: 0 1px 2px rgb(0 40 80 / 0.45);
+}
+
+:global(:root[data-estilo='aero']) .concluido .circulo {
+  --cor-no: var(--no-concluido);
+}
+
+:global(:root[data-estilo='aero']) .atual .circulo {
+  --cor-no: var(--no-atual);
+}
+
+:global(:root[data-estilo='aero']) .atual .circulo::after {
+  border: 3px solid rgb(255 236 140 / 0.95);
+}
+
+:global(:root[data-estilo='aero']) .chegada .circulo {
+  --cor-no: #ffffff;
+  border-color: var(--opcao-c);
+}
+
+:global(:root[data-estilo='aero']) .pulado .circulo {
+  background: rgb(255 255 255 / 0.15);
+  border: 2px dashed rgb(255 255 255 / 0.85);
+  box-shadow: none;
+  color: rgb(255 255 255 / 0.9);
+}
+
+:global(:root[data-estilo='aero']) .opcional .circulo {
+  outline: 2px dashed #fff4a8;
+  outline-offset: 6px;
+}
+
+/* Plaquinhas de vidro fosco */
+:global(:root[data-estilo='aero']) .placa {
+  border: 1px solid var(--vidro-borda);
+  border-radius: 14px;
+  background:
+    var(--brilho),
+    var(--vidro-forte);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 4px 14px rgb(0 60 120 / 0.2);
+  color: var(--text-muted);
+}
+
+:global(:root[data-estilo='aero']) .atual .placa,
+:global(:root[data-estilo='aero']) .concluido .placa {
+  color: var(--text);
+}
+
+:global(:root[data-estilo='aero']) .atual .placa {
+  border-color: #ffe37a;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 0 16px rgb(255 210 63 / 0.6);
+}
+
+:global(:root[data-estilo='aero']) .tagBonus,
+:global(:root[data-estilo='aero']) .tagPulada {
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.8);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.8);
+}
+
+:global(:root[data-estilo='aero']) .tagBonus {
+  background:
+    var(--brilho),
+    linear-gradient(#ffe36b, #ffbe1f);
+}
+
+:global(:root[data-estilo='aero']) .desvioRotulo {
+  border: 1px solid var(--vidro-borda);
+  background:
+    var(--brilho),
+    var(--vidro-forte);
+  color: var(--text);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    0 3px 10px rgb(0 60 120 / 0.2);
+}
+
+:global(:root[data-estilo='aero']) .token {
+  filter: drop-shadow(0 6px 10px rgb(0 60 120 / 0.4));
+}
+
+/* ---------- Estilo Retrô ---------- */
+
+/* Mapa: grade de pixels, céu noturno e um chão de grama em blocos */
+:global(:root[data-estilo='retro']) .mapa {
+  border: var(--px) solid #000;
+  border-radius: 0;
+  background:
+    linear-gradient(to top, #008751 0 20px, #00e436 20px 26px, transparent 26px),
+    linear-gradient(rgb(255 241 232 / 0.05) 2px, transparent 2px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgb(255 241 232 / 0.05) 2px, transparent 2px) 0 0 / 32px 32px,
+    linear-gradient(to bottom, var(--mapa-topo), var(--mapa-baixo));
+  box-shadow:
+    inset 0 0 0 3px var(--caixa-borda),
+    var(--shadow);
+}
+
+:global(:root[data-estilo='retro']) .arestas {
+  shape-rendering: crispEdges;
+}
+
+/* Setas feitas de blocos */
+:global(:root[data-estilo='retro']) .trilha {
+  stroke-width: 6;
+  stroke-linecap: butt;
+}
+
+:global(:root[data-estilo='retro']) .futura .trilha {
+  stroke-dasharray: 6 10;
+  stroke-width: 6;
+}
+
+:global(:root[data-estilo='retro']) .disponivel .trilha {
+  stroke-dasharray: 10 6;
+}
+
+:global(:root[data-estilo='retro']) .escolhida .trilha {
+  stroke-width: 8;
+}
+
+:global(:root[data-estilo='retro']) .selo circle {
+  display: none;
+}
+
+:global(:root[data-estilo='retro']) .seloQuadrado {
+  display: inline;
+  fill: var(--cor);
+  stroke: #000;
+  stroke-width: 3;
+}
+
+:global(:root[data-estilo='retro']) .selo text {
+  font-family: var(--fonte-titulo);
+  font-size: 12px;
+  font-weight: 400;
+  fill: #000;
+}
+
+:global(:root[data-estilo='retro']) .futura .selo text {
+  fill: var(--text-muted);
+}
+
+/* Nós: blocos quadrados com relevo de pixel */
+:global(:root[data-estilo='retro']) .circulo {
+  border: var(--px) solid #000;
+  border-radius: 0;
+  font-family: var(--fonte-titulo);
+  font-size: clamp(0.7rem, 2.6vw, 1.1rem);
+  font-weight: 400;
+  color: #000;
+  box-shadow:
+    var(--relevo),
+    var(--px) var(--px) 0 #000;
+}
+
+:global(:root[data-estilo='retro']) .concluido .circulo {
+  box-shadow:
+    var(--relevo),
+    var(--px) var(--px) 0 #000;
+}
+
+:global(:root[data-estilo='retro']) .atual .circulo {
+  color: transparent;
+  box-shadow:
+    var(--relevo),
+    var(--px) var(--px) 0 #000;
+}
+
+/* No Retrô o anel é quadrado e pisca (só opacity, leve) */
+:global(:root[data-estilo='retro']) .atual .circulo::after {
+  inset: -9px;
+  border: var(--px) solid var(--caixa-borda);
+  animation: retro-anel 0.8s steps(1) infinite;
+}
+
+:global(:root[data-estilo='retro']) .chegada .circulo {
+  background: var(--caixa-borda);
+  border-color: #000;
+  box-shadow:
+    var(--relevo),
+    var(--px) var(--px) 0 #000;
+}
+
+:global(:root[data-estilo='retro']) .chegada .circulo svg {
+  color: #000;
+}
+
+:global(:root[data-estilo='retro']) .pulado .circulo {
+  background: transparent;
+  border: var(--px) dashed var(--no-bloqueado);
+  color: var(--no-bloqueado);
+  box-shadow: none;
+}
+
+:global(:root[data-estilo='retro']) .opcional .circulo {
+  outline: var(--px) dashed var(--no-atual);
+  outline-offset: 6px;
+}
+
+/* Plaquinhas como caixa de diálogo de RPG */
+:global(:root[data-estilo='retro']) .placa {
+  border: 3px solid var(--caixa-borda);
+  border-radius: 0;
+  background: #000;
+  box-shadow:
+    0 0 0 3px #000,
+    var(--px) var(--px) 0 3px #000;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+:global(:root[data-estilo='retro']) .atual .placa {
+  border-color: var(--no-atual);
+  color: var(--no-atual);
+  box-shadow:
+    0 0 0 3px #000,
+    var(--px) var(--px) 0 3px #000;
+}
+
+:global(:root[data-estilo='retro']) .concluido .placa {
+  color: var(--text);
+}
+
+:global(:root[data-estilo='retro']) .tagBonus,
+:global(:root[data-estilo='retro']) .tagPulada {
+  border-radius: 0;
+  border: 2px solid #000;
+  color: #000;
+}
+
+:global(:root[data-estilo='retro']) .desvioRotulo {
+  border: 2px dashed var(--text-muted);
+  border-radius: 0;
+  background: #000;
+  color: var(--text);
+  font-family: var(--fonte-jogo);
+  font-size: 0.95rem;
+  font-weight: 400;
+  padding: 0.1em 0.5em;
+  box-shadow: 3px 3px 0 #000;
+}
+
+/* O grupo é pixelizado pelo filtro do tema e ganha sombra dura */
+:global(:root[data-estilo='retro']) .tabuleiro .token {
+  filter: url('#retro-pixelar') drop-shadow(var(--px) var(--px) 0 #000);
+}
+
+:global(:root[data-estilo='retro']) .tabuleiro .token {
+  animation-timing-function: steps(2);
+}
+
+@keyframes retro-anel {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(:root[data-estilo='retro']) .atual .circulo::after {
+    animation: none;
+  }
+}

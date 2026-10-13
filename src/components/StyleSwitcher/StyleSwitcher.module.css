@@ -1,0 +1,91 @@
+.seletor {
+  /* Nunca quebra em duas linhas: a pílula deformava no Aero e no Clássico */
+  display: inline-flex;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+}
+
+.opcao {
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  border: none;
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.opcao:hover:not(.ativo) {
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.opcao:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ativo {
+  background: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 26rem) {
+  .opcao {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.78rem;
+  }
+}
+
+/* ---------- Estilo Frutiger Aero ---------- */
+
+:global(:root[data-estilo='aero']) .seletor {
+  background: var(--vidro);
+  border: 1px solid var(--vidro-borda);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 4px 14px rgb(0 70 140 / 0.2);
+}
+
+:global(:root[data-estilo='aero']) .ativo {
+  background:
+    var(--brilho),
+    linear-gradient(to bottom, #6fd6ff, #0f9fe0);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 2px 8px rgb(16 165 232 / 0.5);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+}
+
+/* ---------- Estilo Retrô ---------- */
+
+:global(:root[data-estilo='retro']) .seletor {
+  border: 3px solid #000;
+  border-radius: 0;
+  background: #000;
+  box-shadow: var(--px) var(--px) 0 #000;
+}
+
+:global(:root[data-estilo='retro']) .opcao {
+  border-radius: 0;
+  /* VT323: na Press Start pequena, o "ô" de "Retrô" parece um "8" */
+  font-family: var(--fonte-jogo);
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.3rem 0.7rem;
+  color: var(--text-muted);
+}
+
+:global(:root[data-estilo='retro']) .ativo {
+  background: var(--no-atual);
+  color: #000;
+}
