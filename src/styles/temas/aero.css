@@ -69,7 +69,8 @@
 
 /* Aero noturno: céu escuro. Os reflexos brancos ficam bem fracos, senão
    clareiam o fundo atrás do texto claro e ele some. */
-@media (prefers-color-scheme: dark) {
+/* Modo escuro desativado. Para reativar, restaure @media (prefers-color-scheme: dark). */
+@media not all {
   :root[data-estilo='aero'] {
     --bg: #03203b;
     --surface: #0d2c4a;
