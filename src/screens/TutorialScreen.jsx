@@ -100,7 +100,7 @@ function IlustracaoSeguranca() {
 const CARDS = [
     {
         titulo: 'Chegue à apresentação',
-        texto: 'Suba o tabuleiro cumprindo as metas de aprendizado e qualidade.',
+        texto: 'Ande pelo tabuleiro cumprindo as metas de aprendizado e qualidade.',
         Ilustracao: IlustracaoObjetivo,
     },
     {
@@ -115,7 +115,7 @@ const CARDS = [
     },
     {
         titulo: 'Proteja os dados',
-        texto: 'Enviar dados dos moradores para a IA compromete a segurança do trabalho.',
+        texto: 'Cuidado para não comprometer a segurança dos dados sensíveis coletados!',
         Ilustracao: IlustracaoSeguranca,
         alerta: true,
     },

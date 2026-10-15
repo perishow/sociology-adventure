@@ -18,9 +18,10 @@ export default function StartScreen() {
         <GroupIcon className={`${styles.heroi} pixelar`} />
         <h1 className={styles.titulo}>A Pesquisa Sociológica</h1>
         <p className={styles.subtitulo}>
-          Seu grupo vai apresentar um seminário de Sociologia sobre <strong>Lazer e cidadania</strong> e já
-          entrevistou moradores da vizinhança. Agora, guie o grupo pelas {nodes.length} etapas de preparação,
-          de baixo até a apresentação, e decida quando, e como, usar a IA.
+          Seu grupo vai fazer um trabalho de Sociologia sobre <strong>Lazer e Cidadania</strong>. Após entrevistar os
+          moradores da vizinhança, vocês precisam organizar os dados e montar o seminário. Guie o grupo pelas{' '}
+          {nodes.length} etapas de preparação, desde a pesquisa pelo tema até a apresentação, e decida quando, e como,
+          usar a IA Generativa.
         </p>
 
         <ul className={styles.regras}>
@@ -29,24 +30,7 @@ export default function StartScreen() {
               <HourglassIcon />
             </span>
             <span>
-              Você tem <strong>{config.tempoInicial} de tempo</strong>. Cada escolha gasta uma parte. Se sobrar
-              tempo no fim, há uma <strong>etapa bônus</strong> com pontos extras.
-            </span>
-          </li>
-          <li style={{ '--cor': 'var(--aprendizado)' }}>
-            <span className={styles.regraIcone}>
-              <BookIcon />
-            </span>
-            <span>
-              Chegue ao fim com pelo menos <strong>{config.minAprendizado} de aprendizado</strong>.
-            </span>
-          </li>
-          <li style={{ '--cor': 'var(--qualidade)' }}>
-            <span className={styles.regraIcone}>
-              <StarIcon />
-            </span>
-            <span>
-              Chegue ao fim com pelo menos <strong>{config.minQualidade} de qualidade</strong>.
+              <strong>{config.tempoInicial}</strong> de tempo para tudo
             </span>
           </li>
           <li style={{ '--cor': 'var(--danger)' }}>
@@ -54,8 +38,23 @@ export default function StartScreen() {
               <ShieldIcon />
             </span>
             <span>
-              As entrevistas têm dados pessoais dos moradores. Expô-los quebra a <strong>segurança</strong> e
-              encerra o jogo!
+              <strong>Proteja</strong> os dados dos moradores
+            </span>
+          </li>
+          <li style={{ '--cor': 'var(--aprendizado)' }}>
+            <span className={styles.regraIcone}>
+              <BookIcon />
+            </span>
+            <span>
+              Meta: <strong>{config.minAprendizado}</strong> de aprendizado
+            </span>
+          </li>
+          <li style={{ '--cor': 'var(--qualidade)' }}>
+            <span className={styles.regraIcone}>
+              <StarIcon />
+            </span>
+            <span>
+              Meta: <strong>{config.minQualidade}</strong> de qualidade
             </span>
           </li>
         </ul>
