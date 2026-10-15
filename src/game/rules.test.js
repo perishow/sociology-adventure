@@ -27,6 +27,14 @@ function todosOsCaminhos(i = 0) {
 }
 
 describe('gameReducer', () => {
+  it('mostra o tutorial entre a tela inicial e o jogo', () => {
+    let state = gameReducer(criarEstadoInicial(), { type: 'TUTORIAL' })
+    expect(state.fase).toBe('tutorial')
+    state = gameReducer(state, { type: 'INICIAR' })
+    expect(state.fase).toBe('jogando')
+    expect(gameReducer(state, { type: 'TUTORIAL' })).toBe(state)
+  })
+
   it('aplica custo e efeitos e aguarda o jogador continuar', () => {
     let state = iniciar()
     state = gameReducer(state, { type: 'ESCOLHER_OPCAO', opcaoId: 'pesquisa-livro-sites' })

@@ -6,6 +6,10 @@ import { aplicarEfeitos, avaliarFim, indiceDoDestino, podePagar, resolverDestino
 
 export function gameReducer(state, action) {
   switch (action.type) {
+    case 'TUTORIAL':
+      if (state.fase !== 'inicio') return state
+      return { ...state, fase: 'tutorial' }
+
     case 'INICIAR':
       return { ...criarEstadoInicial(), fase: 'jogando' }
 

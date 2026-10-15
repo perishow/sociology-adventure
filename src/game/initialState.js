@@ -2,7 +2,7 @@ import { config } from '../data/config.js'
 
 export function criarEstadoInicial() {
   return {
-    fase: 'inicio', // 'inicio' | 'jogando' | 'fim'
+    fase: 'inicio', // 'inicio' | 'tutorial' | 'jogando' | 'fim'
     noAtual: 0,
     tempo: config.tempoInicial,
     aprendizado: 0,

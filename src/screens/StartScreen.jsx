@@ -60,7 +60,7 @@ export default function StartScreen() {
           </li>
         </ul>
 
-        <Button grande onClick={() => dispatch({ type: 'INICIAR' })}>
+        <Button grande onClick={() => dispatch({ type: 'TUTORIAL' })}>
           ▶ Começar
         </Button>
       </div>

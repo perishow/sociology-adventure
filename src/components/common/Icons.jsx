@@ -69,3 +69,29 @@ export function TrophyIcon() {
     </svg>
   )
 }
+
+// Ficha de entrevista com dados pessoais (usada no tutorial de segurança).
+export function DocIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 2h10l4 4v16H5z" fill="currentColor" />
+      <circle cx="10" cy="9" r="2.4" fill="var(--surface)" />
+      <path d="M6.5 15c0-2.2 1.6-3.6 3.5-3.6s3.5 1.4 3.5 3.6z" fill="var(--surface)" />
+      <path d="M8 18h8M14 9h2.5M14 12h2.5" stroke="var(--surface)" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function RobotIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M11 2h2v3h-2z" fill="currentColor" />
+      <circle cx="12" cy="2.5" r="1.5" fill="currentColor" />
+      <rect x="4" y="5" width="16" height="12" rx="3" fill="currentColor" />
+      <circle cx="9" cy="10.5" r="1.8" fill="var(--surface)" />
+      <circle cx="15" cy="10.5" r="1.8" fill="var(--surface)" />
+      <path d="M9 14h6" stroke="var(--surface)" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M7 18h10v4H7z" fill="currentColor" />
+    </svg>
+  )
+}
