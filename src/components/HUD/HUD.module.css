@@ -55,10 +55,10 @@
 }
 
 .rotulo {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--text-muted);
 }
 
@@ -74,8 +74,8 @@
 }
 
 .limite {
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-muted);
 }
 
@@ -177,8 +177,10 @@
 
   .rotulo {
     grid-area: rotulo;
-    font-size: 0.6rem;
-    letter-spacing: 0.03em;
+    /* Mesmo tamanho em px de antes do aumento geral: maior que isso, os quatro
+       rótulos não cabem lado a lado no celular */
+    font-size: 0.64rem;
+    letter-spacing: 0;
     line-height: 1.1;
   }
 
@@ -204,7 +206,7 @@
   }
 
   .limite {
-    font-size: 0.65rem;
+    font-size: 0.72rem;
   }
 
   .trilho {
@@ -351,6 +353,12 @@
 @media (max-width: 40rem) {
   :global(:root[data-estilo='retro']) .valor {
     font-size: 0.7rem;
+  }
+
+  /* A Monocraft é larga: com o tamanho dos outros temas, os rótulos se encostam */
+  :global(:root[data-estilo='retro']) .rotulo {
+    font-size: 0.6rem;
+    letter-spacing: 0;
   }
 
   :global(:root[data-estilo='retro']) .trilho {

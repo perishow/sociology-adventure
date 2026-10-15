@@ -64,6 +64,8 @@
   --selo-futuro-texto: #3f6984;
 
   color-scheme: light;
+  /* A Nunito é fina no peso normal; sobre o vidro ela precisa de mais traço */
+  font-weight: 600;
   background: var(--mapa-baixo);
 }
 

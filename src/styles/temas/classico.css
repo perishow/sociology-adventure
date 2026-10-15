@@ -46,7 +46,11 @@
   --shadow: 0 10px 24px rgb(70 45 10 / 0.16);
 
   color-scheme: light;
+  /* Tudo um pouco maior (17px em vez de 16px); vale também para o Aero */
+  font-size: 106.25%;
   font-family: var(--fonte-jogo);
+  /* Um pouco mais grosso que o normal: lê melhor em telas pequenas */
+  font-weight: 500;
   line-height: 1.45;
   color: var(--text);
   background: var(--bg);

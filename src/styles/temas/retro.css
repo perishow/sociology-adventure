@@ -79,6 +79,10 @@
     inset var(--px) var(--px) 0 rgb(255 255 255 / 0.35);
 
   color-scheme: dark;
+  /* A Monocraft é larga: fica no tamanho normal, sem o aumento do Clássico/Aero */
+  font-size: 100%;
+  /* A Monocraft já é grossa no peso normal */
+  font-weight: 400;
   /* A Monocraft tem ligaduras (ex.: "->" vira seta); aqui só queremos o texto */
   font-variant-ligatures: none;
   /* As fontes pixel não têm todos os pesos: sem negrito "falso", que borra os pixels */
