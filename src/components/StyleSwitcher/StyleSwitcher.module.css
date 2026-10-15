@@ -77,10 +77,10 @@
 
 :global(:root[data-estilo='retro']) .opcao {
   border-radius: 0;
-  /* VT323: na Press Start pequena, o "ô" de "Retrô" parece um "8" */
+  /* Fonte do texto: na Press Start pequena, o "ô" de "Retrô" parece um "8" */
   font-family: var(--fonte-jogo);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 600;
   padding: 0.3rem 0.7rem;
   color: var(--text-muted);
 }

@@ -32,7 +32,9 @@ function IlustracaoObjetivo() {
                 <span className={tut.ponto}>3</span>
                 <span className={tut.ponto}>2</span>
                 <span className={tut.ponto}>1</span>
-                <GroupIcon className={`${tut.token} pixelar`} />
+                <span className={tut.token}>
+                  <GroupIcon className="pixelar" />
+                </span>
             </div>
             <div className={tut.metas}>
                 <span style={{ '--cor': 'var(--aprendizado)' }}>

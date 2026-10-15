@@ -645,18 +645,22 @@
   color: var(--text);
   font-family: var(--fonte-jogo);
   font-size: 0.95rem;
-  font-weight: 400;
+  font-weight: 600;
   padding: 0.1em 0.5em;
   box-shadow: 3px 3px 0 #000;
 }
 
-/* O grupo é pixelizado pelo filtro do tema e ganha sombra dura */
+/* O grupo é pixelizado pelo filtro do tema e ganha sombra dura. O filtro fica no
+   <svg>, e o contêiner (que flutua e anda) vira uma camada própria: assim o filtro
+   é desenhado uma vez só, e não a cada quadro da animação. */
 :global(:root[data-estilo='retro']) .tabuleiro .token {
-  filter: url('#retro-pixelar') drop-shadow(var(--px) var(--px) 0 #000);
+  filter: none;
+  will-change: transform;
+  animation-timing-function: steps(2);
 }
 
-:global(:root[data-estilo='retro']) .tabuleiro .token {
-  animation-timing-function: steps(2);
+:global(:root[data-estilo='retro']) .tabuleiro .token svg {
+  filter: url('#retro-pixelar') drop-shadow(var(--px) var(--px) 0 #000);
 }
 
 @keyframes retro-anel {

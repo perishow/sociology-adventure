@@ -1,28 +1,38 @@
 /*
  * Tema "Retrô": videogame 8-bit. Tudo quadrado, bordas pretas grossas, sombras
- * duras, fontes pixel, linhas de tela CRT e animações em "passos" (steps).
+ * duras, fontes pixel e animações em "passos" (steps).
  * Paleta baseada na PICO-8. Só vale com <html data-estilo="retro">.
  *
  * Aqui ficam as cores e o fundo da página. O que muda em cada componente fica
  * no fim do .module.css dele, no bloco "Estilo Retrô".
  * Este tema tem um visual só (escuro), com ou sem modo escuro no sistema.
+ *
+ * Desempenho: o filtro de pixelização (.pixelar) é caro, então nunca fica num
+ * elemento que se mexe; quem se mexe é o contêiner, e o filtro vai no <svg> de dentro.
  */
 @import '@fontsource/press-start-2p';
-
-/* VT323 com size-adjust: a fonte é estreita e baixinha, então desenhamos ela 15%
-   maior só aqui (sem aumentar o resto da página). Cobre o português (latin). */
+/* Monocraft (fonte do Minecraft, licença OFL: src/assets/fonts/monocraft/OFL.txt).
+   Não existe no npm; os arquivos são um recorte só com os caracteres do jogo. */
 @font-face {
-  font-family: 'VT323 Jogo';
-  src: url('../../../node_modules/@fontsource/vt323/files/vt323-latin-400-normal.woff2') format('woff2');
+  font-family: 'Monocraft';
+  src: url('../../assets/fonts/monocraft/monocraft-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  size-adjust: 115%;
+}
+
+@font-face {
+  font-family: 'Monocraft';
+  src: url('../../assets/fonts/monocraft/monocraft-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root[data-estilo='retro'] {
-  /* VT323 (terminal antigo) no texto: números bem legíveis. Press Start 2P nos títulos. */
-  --fonte-jogo: 'VT323 Jogo', ui-monospace, monospace;
+  /* Monocraft no texto: pixelada, traço grosso e números bem distintos.
+     Press Start 2P nos títulos e botões. */
+  --fonte-jogo: 'Monocraft', ui-monospace, monospace;
   --fonte-titulo: 'Press Start 2P', ui-monospace, monospace;
 
   --bg: #0b0f2a;
@@ -69,15 +79,10 @@
     inset var(--px) var(--px) 0 rgb(255 255 255 / 0.35);
 
   color-scheme: dark;
-  /* A VT323 é estreita: tudo um pouco maior neste tema */
-  font-size: 118%;
+  /* A Monocraft tem ligaduras (ex.: "->" vira seta); aqui só queremos o texto */
   font-variant-ligatures: none;
-  /* As fontes pixel têm um peso só: sem negrito "falso", que borra os pixels */
+  /* As fontes pixel não têm todos os pesos: sem negrito "falso", que borra os pixels */
   font-synthesis: none;
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: unset;
-  /* Contorno escuro de 1px: as letras se destacam do fundo e das linhas de CRT */
-  text-shadow: 1px 1px 0 rgb(0 0 0 / 0.65);
 
   background: #0b0f2a;
 }
@@ -102,27 +107,17 @@
     linear-gradient(to bottom, #0b0f2a, #1d2b53);
 }
 
-/* No celular, o tamanho normal: com 118% o HUD de 4 colunas não cabe */
+/* No celular, o tamanho normal: maior que isso, o HUD de 4 colunas não cabe */
 @media (max-width: 40rem) {
   :root[data-estilo='retro'] {
     font-size: 100%;
   }
 }
 
-/* Sem negrito de verdade, o destaque vem da cor, como nos jogos antigos */
+/* Destaque em amarelo, como nos jogos antigos */
 :root[data-estilo='retro'] strong {
   color: var(--no-atual);
-}
-
-/* Linhas de tela CRT por cima de tudo (sem bloquear cliques) */
-:root[data-estilo='retro'] body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  pointer-events: none;
-  /* bem suaves, para não "riscarem" as letras */
-  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.07) 0 1px, transparent 1px 3px);
+  font-weight: 700;
 }
 
 /* As imagens do jogo são vetoriais; no Retrô, elas passam pelo filtro de

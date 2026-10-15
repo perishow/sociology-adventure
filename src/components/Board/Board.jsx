@@ -111,11 +111,11 @@ export default function Board({ onAbrirNo }) {
 
         <div
           ref={tokenRef}
-          className={`${styles.token} pixelar`}
+          className={styles.token}
           style={emPorcentagem(pontos[state.noAtual], TOTAL_PONTOS)}
           aria-hidden="true"
         >
-          <GroupIcon />
+          <GroupIcon className="pixelar" />
         </div>
       </div>
     </div>

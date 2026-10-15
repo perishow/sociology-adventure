@@ -483,7 +483,8 @@
 }
 
 :global(:root[data-estilo='retro']) .heroi {
-  animation-timing-function: steps(2);
+  /* Parado: animar um elemento com o filtro de pixel redesenha o filtro a cada quadro */
+  animation: none;
   filter: url('#retro-pixelar') drop-shadow(var(--px) var(--px) 0 #000);
 }
 

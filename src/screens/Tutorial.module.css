@@ -137,22 +137,30 @@
   width: 1.1rem;
 }
 
-/* O grupo sobe da primeira etapa até a chegada, sem parar */
+/* O grupo sobe da primeira etapa até a chegada, sem parar. Anima só transform,
+   que o navegador move sem recalcular o layout. */
 .token {
   position: absolute;
   left: 2.1rem;
+  bottom: -0.2rem;
   width: 2.4rem;
   animation: subir 3.2s ease-in-out infinite;
+}
+
+.token svg {
+  display: block;
+  width: 100%;
 }
 
 @keyframes subir {
   0%,
   10% {
-    bottom: -0.2rem;
+    transform: none;
   }
   80%,
   100% {
-    bottom: calc(100% - 1.8rem);
+    /* altura da trilha (9.5rem) menos a do ponto de chegada */
+    transform: translateY(-7.8rem);
   }
 }
 
@@ -273,7 +281,7 @@
 
 .consequencias ul {
   justify-content: center;
-  max-width: 17rem;
+  max-width: 22rem;
 }
 
 /* ---------- Card 4: segurança ---------- */
@@ -333,9 +341,6 @@
     animation: none;
   }
 
-  .token {
-    bottom: -0.2rem;
-  }
 }
 
 /* ---------- Estilo Frutiger Aero ---------- */
@@ -374,9 +379,7 @@
 
 :global(:root[data-estilo='retro']) .contador,
 :global(:root[data-estilo='retro']) .pular {
-  font-family: var(--fonte-titulo);
-  font-size: 0.6rem;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 :global(:root[data-estilo='retro']) .cartao .titulo {
@@ -409,13 +412,28 @@
   box-shadow: var(--relevo);
 }
 
+/* Só ficam as animações que explicam algo (o grupo subindo, a opção sendo
+   escolhida); o "?" e o ✕ ficam parados */
 :global(:root[data-estilo='retro']) .token,
-:global(:root[data-estilo='retro']) .escolhido,
-:global(:root[data-estilo='retro']) .misterio,
-:global(:root[data-estilo='retro']) .bloqueio {
+:global(:root[data-estilo='retro']) .escolhido {
   animation-timing-function: steps(4);
 }
 
+:global(:root[data-estilo='retro']) .misterio,
+:global(:root[data-estilo='retro']) .bloqueio {
+  animation: none;
+}
+
+/* A Monocraft é larga: selos menores, para os três caberem no palco do celular */
+:global(:root[data-estilo='retro']) .consequencias li {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+}
+
 :global(:root[data-estilo='retro']) .token {
+  will-change: transform;
+}
+
+:global(:root[data-estilo='retro']) .token svg {
   filter: url('#retro-pixelar') drop-shadow(var(--px) var(--px) 0 #000);
 }
